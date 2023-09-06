@@ -1,6 +1,6 @@
 extends SubViewport
 
-var filename = "item_bg"
+var filename = "item_bg_selected"
 
 func _ready():
 		size = Vector2(128, 128)

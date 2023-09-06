@@ -6,7 +6,7 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_olvfo"]
 shader = ExtResource("1_sqcld")
-shader_parameter/center_color = Color(0.772549, 0.984314, 1, 0.227451)
+shader_parameter/center_color = Color(0.77, 0.98, 1, 0.5)
 shader_parameter/edge_color = Color(0, 0, 0, 1)
 
 [node name="Node2D" type="Node2D"]
@@ -15,11 +15,6 @@ shader_parameter/edge_color = Color(0, 0, 0, 1)
 script = ExtResource("1_o8d05")
 
 [node name="Icon" type="Sprite2D" parent="SubViewport"]
-material = SubResource("ShaderMaterial_olvfo")
-position = Vector2(64, 64)
-texture = ExtResource("2_kt8vl")
-
-[node name="Icon2" type="Sprite2D" parent="."]
 material = SubResource("ShaderMaterial_olvfo")
 position = Vector2(64, 64)
 texture = ExtResource("2_kt8vl")

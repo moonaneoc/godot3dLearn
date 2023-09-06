@@ -9,6 +9,14 @@ const ICON_PATH = "res://build_system/assets/icons/"
 @onready var container = $BoxContainer
 @onready var GuiItem: PackedScene = ResourceLoader.load("res://build_system/GUI/GUI_item.tscn")
 
+var active_name: String = "":
+	set(val):
+		for item in container.get_children():
+			if item.type_name == val:
+				item.texture = load("res://build_system/assets/icons/item_bg_selected.png")
+			else:
+				item.texture = load("res://build_system/assets/icons/item_bg.png")
+
 func loadIcon(type_name):
 	var icon = ResourceLoader.load(ICON_PATH + type_name + ".png")
 	var guiItem = GuiItem.instantiate()

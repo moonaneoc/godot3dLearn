@@ -24,23 +24,13 @@ var IsSaving = false
 var assist_point:MeshInstance3D
 func _ready():
 	assist_point = get_tree().root.get_node("BuildSystem/assist_point")
+	
 #	var configDebug = ConfigFile.new()
 #	configDebug.set_value("cabinet", "type_name", "cabinet")
 #	configDebug.set_value("cabinet", "buildable", true)
 #	configDebug.set_value("cabinet", "allow_degree", [0, 90])
 #	configDebug.set_value("cabinet", "auto_rotate", false)
 #	configDebug.set_value("cabinet", "build_on_list", ["floor"])
-#
-#	configDebug.set_value("wood_window", "type_name", "wood_window")
-#	configDebug.set_value("wood_window", "buildable", true)
-#	configDebug.set_value("wood_window", "auto_rotate", true)
-#	configDebug.set_value("wood_window", "build_on_list", ["wall"])
-#
-#	configDebug.set_value("wall", "type_name", "wall")
-#	configDebug.set_value("wall", "buildable_faces", 0b001000)
-#
-#	configDebug.set_value("floor", "type_name", "floor")
-#	configDebug.set_value("floor", "buildable_faces", 0b000010)
 #	configDebug.save("res://build_system/spawnable.cfg")
 	
 	SpawnableCfg = CommonTools.loadCfgToDictionary("res://build_system/spawnable.cfg")
@@ -67,48 +57,55 @@ func _ready():
 	loadData()
 
 func _physics_process(delta):
+	if handleInput(): return
+	updateSpanwable()
+
+func handleInput():
 	if Input.is_action_just_pressed("Clean"):
 		for child in BuildingContainer.get_children():
 			child.queue_free()
-		return
-		
+		return true
+
 	if Input.is_action_just_pressed("RightMouseButton"):
 		if CurrentState == State.Building:
 			CurrentSpawnable.queue_free()
 			CurrentState = State.Play
-			return
+			$GUI.active_name = ""
+			return true
 		
 		var result = rayToWorld()
 		if !result.is_empty():
 			if(result.collider.type_name != "floor" and result.collider.type_name != "wall"):
 				result.collider.queue_free()
 				$Remove.play()
-#				result.collider.get_node("MeshInstance").get_mas
+				return true
 	
-	if CurrentState == State.Building:
-		if Input.is_action_just_pressed("LeftMouseButton") and Buildable:
-			spawnBuilding(CurrentSpawnable.type_name, CurrentSpawnable.transform)
-			$Spawn.play()
-			return
-			
-		if Input.is_action_just_pressed("Rotate"):
-			CurrentSpawnable.changeDirection()
-			
-		CurrentSpawnable.visible = false
-		Buildable = false
-		var result = rayToWorld()
-		if !result.is_empty():
-			autoFixOrigin(CurrentSpawnable, result.position, result.normal)
-			CurrentSpawnable.autoFixRotation(result.collider)
-			match CurrentSpawnable.checkSpawnable(result.collider, result.normal):
-				0:
-					assist_point.transform.origin = CurrentSpawnable.transform.origin
-					CurrentSpawnable.visible = true
-					Buildable = true
-					CurrentSpawnable.get_node("MeshInstance").set("instance_shader_parameters/instance_color", COLOR_ABLE)
-				1:
-					CurrentSpawnable.visible = true
-					CurrentSpawnable.get_node("MeshInstance").set("instance_shader_parameters/instance_color", COLOR_DISABLE)
+	if Input.is_action_just_pressed("LeftMouseButton") and CurrentState == State.Building and Buildable:
+		spawnBuilding(CurrentSpawnable.type_name, CurrentSpawnable.transform)
+		$Spawn.play()
+		return
+		
+	if Input.is_action_just_pressed("Rotate") && CurrentState == State.Building:
+		CurrentSpawnable.changeDirection()
+
+func updateSpanwable():
+	if CurrentState != State.Building: return
+	
+	CurrentSpawnable.visible = false
+	Buildable = false
+	var result = rayToWorld()
+	if !result.is_empty():
+		autoFixOrigin(CurrentSpawnable, result.position, result.normal)
+		CurrentSpawnable.autoFixRotation(result.collider)
+		match CurrentSpawnable.checkSpawnable(result.collider, result.normal):
+			0:
+				assist_point.transform.origin = CurrentSpawnable.transform.origin
+				CurrentSpawnable.visible = true
+				Buildable = true
+				CurrentSpawnable.get_node("MeshInstance").set("instance_shader_parameters/instance_color", COLOR_ABLE)
+			1:
+				CurrentSpawnable.visible = true
+				CurrentSpawnable.get_node("MeshInstance").set("instance_shader_parameters/instance_color", COLOR_DISABLE)
 
 func rayToWorld():
 	var camera = get_viewport().get_camera_3d()
@@ -161,6 +158,7 @@ func _on_gui_build_btn_click(type_name):
 		CurrentSpawnable.queue_free()
 		if type_name == CurrentSpawnable.type_name:
 			CurrentState = State.Play
+			$GUI.active_name = ""
 			return
 	
 	CurrentState = State.Building
@@ -176,6 +174,7 @@ func _on_gui_build_btn_click(type_name):
 	for ray in CurrentSpawnable.get_node("CollisionShape").get_children():
 		ray.enabled = true
 	add_child(CurrentSpawnable)
+	$GUI.active_name = type_name
 	
 func _on_building_container_child_entered_tree(node):
 	saveData()
