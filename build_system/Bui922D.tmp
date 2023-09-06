@@ -1,0 +1,46 @@
+[gd_scene load_steps=8 format=3 uid="uid://do1wlvlyap5qe"]
+
+[ext_resource type="PackedScene" uid="uid://xwhdbf3f31ve" path="res://build_system/scenes/floor.tscn" id="1_st2dg"]
+[ext_resource type="Script" path="res://build_system/BuildManager.gd" id="2_6sqvt"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_kc36m"]
+sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+
+[sub_resource type="Sky" id="Sky_i5pdg"]
+sky_material = SubResource("ProceduralSkyMaterial_kc36m")
+
+[sub_resource type="Environment" id="Environment_8m0yn"]
+background_mode = 2
+sky = SubResource("Sky_i5pdg")
+tonemap_mode = 2
+glow_enabled = true
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_01xy2"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_j1t4q"]
+material = SubResource("StandardMaterial3D_01xy2")
+radius = 0.2
+height = 0.4
+
+[node name="BuildSystem" type="Node3D"]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.680721, -0.670247, 0.295614, 0, 0.403545, 0.91496, -0.732543, -0.622832, 0.274702, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_8m0yn")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(0.927184, -0.264887, 0.264887, 0, 0.707107, 0.707107, -0.374607, -0.655618, 0.655618, 2.2838, 11.7857, 7.21632)
+
+[node name="BuildManager" type="Node3D" parent="."]
+script = ExtResource("2_6sqvt")
+
+[node name="assist_point" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -25.918, -1.93649, 0)
+mesh = SubResource("SphereMesh_j1t4q")
+
+[node name="floor" parent="." instance=ExtResource("1_st2dg")]

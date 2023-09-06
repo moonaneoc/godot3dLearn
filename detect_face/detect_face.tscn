@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://b042yraxo8ki"]
+
+[ext_resource type="Script" path="res://detect_face/detect_face.gd" id="1_087ky"]
+[ext_resource type="PackedScene" uid="uid://bg8gi74s2yyp4" path="res://build_system/scenes/table.tscn" id="2_e1trb"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6jbq2"]
+albedo_color = Color(1, 0, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_bs7gn"]
+material = SubResource("StandardMaterial3D_6jbq2")
+radius = 0.08
+height = 0.16
+
+[node name="detect_face" type="Node3D"]
+script = ExtResource("1_087ky")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866025, -0.45748, 0.201773, 0, 0.403545, 0.91496, -0.5, 0.792378, -0.349481, 0, 0, 0)
+shadow_enabled = true
+
+[node name="ball" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, -2.6077e-08, 0, -2.6077e-08, 1, 0, 0, 0, 1, 0, 0, 0.5)
+mesh = SubResource("SphereMesh_bs7gn")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.935678, 0.352854, 0, -0.352854, 0.935678, 0, 1.20558, 1.80751)
+visible = false
+
+[node name="table" parent="." instance=ExtResource("2_e1trb")]
+transform = Transform3D(0.922309, 0.365031, -0.12688, 0.304716, -0.888852, -0.342186, -0.237686, 0.276938, -0.931026, 0.091879, 0.0992451, 0.0356946)

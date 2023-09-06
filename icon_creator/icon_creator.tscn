@@ -1,0 +1,99 @@
+[gd_scene load_steps=16 format=3 uid="uid://bgnvmwhvxyjkh"]
+
+[ext_resource type="Script" path="res://icon_creator/icon_creator.gd" id="1_yaiyq"]
+[ext_resource type="PackedScene" uid="uid://1nyoltiqyicj" path="res://build_system/scenes/cabinet.tscn" id="2_8e0bk"]
+[ext_resource type="PackedScene" uid="uid://g58mmlofwgmx" path="res://build_system/scenes/door.tscn" id="2_mnbdi"]
+[ext_resource type="PackedScene" uid="uid://xwhdbf3f31ve" path="res://build_system/scenes/floor.tscn" id="3_pnkqd"]
+[ext_resource type="PackedScene" uid="uid://dx16tkoroud2d" path="res://build_system/scenes/lamp.tscn" id="4_dshwl"]
+[ext_resource type="PackedScene" uid="uid://xijwqakh08d6" path="res://build_system/scenes/photo.tscn" id="5_odtnh"]
+[ext_resource type="PackedScene" uid="uid://d17wxpjlp2fhk" path="res://build_system/scenes/picture.tscn" id="6_uj8l6"]
+[ext_resource type="PackedScene" uid="uid://cyb0agqym682w" path="res://build_system/scenes/pot_plant.tscn" id="7_32kb8"]
+[ext_resource type="PackedScene" uid="uid://g3epihgnja8g" path="res://build_system/scenes/sofa.tscn" id="8_sq552"]
+[ext_resource type="PackedScene" uid="uid://bg8gi74s2yyp4" path="res://build_system/scenes/table.tscn" id="9_3j40c"]
+[ext_resource type="PackedScene" uid="uid://dlb5x552bfs6s" path="res://build_system/scenes/tv_cabinet.tscn" id="10_l3k4d"]
+[ext_resource type="PackedScene" uid="uid://dx1elajbbkdgk" path="res://build_system/scenes/wood_window.tscn" id="11_7ul27"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ktn2o"]
+sky_top_color = Color(1, 1, 1, 1)
+sky_horizon_color = Color(0.8, 0.79225, 0.78325, 1)
+ground_horizon_color = Color(0.8, 0.79225, 0.78325, 1)
+
+[sub_resource type="Sky" id="Sky_p3n5b"]
+sky_material = SubResource("ProceduralSkyMaterial_ktn2o")
+
+[sub_resource type="Environment" id="Environment_gtdfq"]
+background_mode = 2
+sky = SubResource("Sky_p3n5b")
+tonemap_mode = 2
+glow_enabled = true
+adjustment_enabled = true
+adjustment_brightness = 0.84
+adjustment_contrast = 1.66
+adjustment_saturation = 1.32
+
+[node name="IconCreator" type="Node3D"]
+script = ExtResource("1_yaiyq")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+msaa_3d = 3
+screen_space_aa = 1
+use_taa = true
+use_debanding = true
+use_occlusion_culling = true
+size = Vector2i(256, 256)
+render_target_update_mode = 4
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="SubViewport"]
+transform = Transform3D(0.897982, -0.0491111, 0.437284, 0, 0.993752, 0.111608, -0.440033, -0.100222, 0.892371, 0, -1.40717, 0)
+
+[node name="Camera3D" type="Camera3D" parent="SubViewport"]
+transform = Transform3D(1, 0, 0, 0, 0.866025, 0.5, 0, -0.5, 0.866025, 0.256679, 1.9379, 2.5849)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="SubViewport"]
+environment = SubResource("Environment_gtdfq")
+
+[node name="building" type="Node3D" parent="SubViewport"]
+
+[node name="door" parent="SubViewport/building" instance=ExtResource("2_mnbdi")]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 0, 0, 0)
+visible = false
+
+[node name="floor" parent="SubViewport/building" instance=ExtResource("3_pnkqd")]
+transform = Transform3D(0.783292, 0, -0.621654, 0, 1, 0, 0.621654, 0, 0.783292, 0, 0, 0)
+visible = false
+
+[node name="lamp" parent="SubViewport/building" instance=ExtResource("4_dshwl")]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 0, 0, 0)
+visible = false
+
+[node name="photo" parent="SubViewport/building" instance=ExtResource("5_odtnh")]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 0, 0, 0)
+visible = false
+
+[node name="picture" parent="SubViewport/building" instance=ExtResource("6_uj8l6")]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 0, -0.121233, -0.631779)
+visible = false
+
+[node name="pot_plant" parent="SubViewport/building" instance=ExtResource("7_32kb8")]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 0, 0, 0)
+visible = false
+
+[node name="sofa" parent="SubViewport/building" instance=ExtResource("8_sq552")]
+transform = Transform3D(-0.5, 0, -0.866025, 0, 1, 0, 0.866025, 0, -0.5, 0, 0, 0)
+visible = false
+
+[node name="table" parent="SubViewport/building" instance=ExtResource("9_3j40c")]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 0, 0, 0)
+visible = false
+
+[node name="tv_cabinet" parent="SubViewport/building" instance=ExtResource("10_l3k4d")]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 0, 0, 0)
+visible = false
+
+[node name="wood_window" parent="SubViewport/building" instance=ExtResource("11_7ul27")]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 0, 0, 0)
+
+[node name="cabinet" parent="SubViewport/building" instance=ExtResource("2_8e0bk")]
+transform = Transform3D(0.866025, 0, -0.5, 0, 1, 0, 0.5, 0, 0.866025, 0, 0, 0)
+visible = false
