@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://b5vs7d8qhafa6"]
+
+[ext_resource type="Script" path="res://voxel/voxel_world.gd" id="1_qr5o6"]
+
+[node name="voxel_world" type="Node3D"]
+script = ExtResource("1_qr5o6")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.127066, 4.48975)
