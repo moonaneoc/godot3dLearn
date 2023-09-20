@@ -3,4 +3,9 @@
 [ext_resource type="Texture2D" uid="uid://cg2ujmj70t544" path="res://voxel/texture_sheet.png" id="1_8cw48"]
 
 [resource]
+shading_mode = 0
+diffuse_mode = 3
+specular_mode = 2
 albedo_texture = ExtResource("1_8cw48")
+texture_filter = 0
+texture_repeat = false

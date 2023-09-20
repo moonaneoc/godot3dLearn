@@ -55,7 +55,7 @@ font_color = Color(0.0627451, 0.0627451, 0.0627451, 1)
 script = ExtResource("2_6sqvt")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.781525, -0.600445, 0.169367, 0.36449, 0.659773, 0.65715, -0.506326, -0.451847, 0.734485, 0, 8.39534, 0)
+transform = Transform3D(0.781525, -0.600445, 0.169366, 0.36449, 0.659773, 0.65715, -0.506326, -0.451847, 0.734485, 0, 8.39534, 0)
 light_energy = 0.8
 shadow_enabled = true
 shadow_opacity = 0.6
